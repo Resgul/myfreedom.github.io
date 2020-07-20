@@ -1,0 +1,99 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: linear-gradient(45deg, rgba(118, 59, 255, 0.466), rgba(118, 59, 255));
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+    color: #fff;
+}
+
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
+    text-align: center;
+}
+h1 {
+ padding: 20px;
+}
+
+h2 {
+    padding: 10px;
+   }
+
+code {
+    padding: 5px;
+    margin-bottom: 5px;
+    overflow: scroll;
+    width: 100%;
+    text-align: left;
+    color: blue;
+    background-color: rgba(255, 248, 220, .9);
+}
+
+code::-webkit-scrollbar { 
+    width: 0; 
+}
+
+.task-block {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    min-height: 200px;
+    background-color: rgba(124, 124, 124, .5);
+    border-radius: 5px;
+    box-shadow: 0 0 13px 3px rgba(0, 0, 0, .5);
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+.first-task {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+    width: 300px;
+    outline: none;
+}
+
+label {
+    padding: 5px;
+}
+
+.answer {
+    padding: 5px;
+}
+
+p {
+    padding: 5px;
+    background-color: rgba(222, 184, 135, .5);
+    overflow: scroll;
+    max-height: 200px;
+    text-align: left;
+}
+
+p::-webkit-scrollbar { 
+    width: 0; 
+}
+
+button {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    width: 110px;
+    padding: 3px;
+    margin: 0 auto;
+    cursor: pointer;
+    outline: none;
+}
