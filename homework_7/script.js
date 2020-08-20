@@ -1,12 +1,10 @@
-let formTask = document.querySelector('.form-1');
-let ol = document.querySelector('.ol-1');
 let inputMain = document.querySelector('.input-1');
 let messageType = document.querySelector('select');
 let ulDone = document.querySelector('.done-list');
 let daySelect = document.querySelector('.day');
 let monthSelect = document.querySelector('.month');
 
-function dataSet() {
+function datеSelectFilling() {
   let month = [{mon:'январь', mona:'января'},
               {mon:'февраль', mona:'февраля'},
               {mon:'март', mona:'марта'},
@@ -54,66 +52,80 @@ function dataSet() {
     }
   })
 }
-dataSet();
 
-formTask.addEventListener('submit', event => {
-  event.preventDefault();
-  let newLi = document.createElement('li');
-  //В спан я буду записывать текст из инпута
-  let newSpan = document.createElement('span');
-  newSpan.textContent = document.querySelector('.input-1').value;
-
-  //Кнопка удаления
-  let delButton = document.createElement('button');
-  delButton.classList.add('delet-but');
-  delButton.textContent = 'удалить';
-  delButton.addEventListener('click', () => newLi.remove())
-  
+function createRedButton(li, text) {
   //Кнопка редактирования
   let redButton = document.createElement('button');
   redButton.classList.add('redact-but');
   redButton.textContent = 'редактировать';
   redButton.addEventListener('click', () => {
     let redInput = document.createElement('input');
-    newLi.append(redInput);
+    li.append(redInput);
     redInput.addEventListener('keyup', (event) => {
       if (event.keyCode === 13) {  
-        newSpan.textContent = redInput.value;
+        text.textContent = redInput.value;
         redInput.remove();
       }
     })
   })
+  return li.appendChild(redButton);
+}
 
+function createDelButton(li) {
+//Кнопка удаления
+  let delButton = document.createElement('button');
+  delButton.classList.add('delet-but');
+  delButton.textContent = 'удалить';
+  delButton.addEventListener('click', () => li.remove())
+  li.appendChild(delButton);
+}
+
+function createCheckbox(li, ulForDoneLi, text) {
+  //Создаю и вставляю чекбокс "сделано"
+  let done = document.createElement('input')
+  done.setAttribute('type', 'checkbox');
+  li.append(done);
+  //Проверка чекбокса "сделано"
+  done.addEventListener('click', () => {
+    //Проверка на заполнение, чтобы не отправить пустой в выполненное
+    if (text.textContent !='') {
+      let doneLi = li;
+      doneLi.textContent = text.textContent; 
+      ulForDoneLi.append(doneLi);
+      doneLi.classList.add('checked');
+    }
+  })
+}
+
+function addDateValue(li, day, month) {
+  let dataP = document.createElement('p');
+  dataP.textContent = `${day.value}-го ${month.value}`;
+  return li.append(dataP);
+}
+
+datеSelectFilling();
+document.querySelector('.form-1').addEventListener('submit', event => {
+  event.preventDefault();
+  let newLi = document.createElement('li');
+  //В спан я буду записывать текст из инпута
+  let textFromInput = document.createElement('span');
+  textFromInput.textContent = document.querySelector('.input-1').value;
+  
   //Вывод пунктов списка: если инпут не пустой - вывод.
-  if (newSpan.textContent !='') {
-    ol.appendChild(newLi);
+  if (textFromInput.textContent !='') {
+    document.querySelector('.ol-1').appendChild(newLi);
 
-    //Создаю и вставляю чекбокс "сделано"
-    let done = document.createElement('input')
-    done.setAttribute('type', 'checkbox');
-    newLi.append(done);
-    //Проверка чекбокса "сделано"
-    done.addEventListener('click', () => {
-      //Проверка на заполнение, чтобы не отправить пустой в выполненное
-      if (newSpan.textContent !='') {
-        let doneLi = newLi;
-        doneLi.textContent = newSpan.textContent; 
-        ulDone.append(doneLi);
-        doneLi.classList.add('checked');
-      }
-    })
-
-    let dataP = document.createElement('p');
-    dataP.textContent = `${daySelect.value}-го ${monthSelect.value}`;
     //Вывод в <li>: текста в <span>,даты через фунецию, которая возвращает строку, удаление, редактирование
-    newLi.append(newSpan);
-    newLi.append(dataP);
-    newLi.appendChild(delButton);
-    newLi.appendChild(redButton);
-
+    createCheckbox(newLi, ulDone, textFromInput);
+    newLi.append(textFromInput);
+    addDateValue(newLi, daySelect, monthSelect);
+    createDelButton(newLi);
+    createRedButton(newLi, textFromInput);  
+    
     //Выбор приоритета сообщения проверкой селекта "важное / обычное" и добавлением класса
     if (messageType.value == 'warning') {newLi.classList.add('warning');}
     else {newLi.classList.add('regular');}
   }
+  console.log(event)
   inputMain.value = '';
 })
