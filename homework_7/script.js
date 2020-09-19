@@ -48,33 +48,43 @@ function datеSelectFilling() {
 }
 //Кнопка редактирования
 function createRedButton(li, text, obj) {
-  let redButton = document.createElement('button');
-  redButton.classList.add('redact-but');
-  redButton.textContent = 'редактировать';
-  redButton.addEventListener('click', () => {
-    let redInput = document.createElement('input');
-    li.append(redInput);
-    redInput.addEventListener('keyup', (event) => {
-      //При нажатии на ENTER
-      if (event.keyCode === 13) {
-        //Отправляется запрос на айди таска  
-        fetch(`https://todoappexamplejs.herokuapp.com/items/${obj.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ title: redInput.value })
-        })
-        .then(() => {text.textContent = redInput.value})
-        .then(() => {
-          text.textContent = redInput.value;
-          redInput.remove();
-        })
-      }
-    })
+  let editButton = document.createElement('button');
+  editButton.classList.add('redact-but');
+  editButton.textContent = 'редактировать';
+  //Создал переменную я проверки нажата ли кнопка редактирования, чтобы не плодить инпуты
+  let editButtonPressed = false;
+  let editButtonCount = 0;
+  editButton.addEventListener('click', () => {
+    let editInput = document.createElement('input');
+    editButtonCount += 1;
+    if (!editButtonPressed) {
+      editInput.setAttribute('placeholder', 'ENTER для редактирования')
+      li.append(editInput);
+      editButtonPressed = true;
+    }
+      editInput.addEventListener('keyup', (event) => {
+        //При нажатии на ENTER
+        const ENTERcode = 13;
+        if (event.keyCode === ENTERcode) {
+          //Отправляется запрос на айди таска  
+          fetch(`https://todoappexamplejs.herokuapp.com/items/${obj.id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ title: editInput.value })
+          })
+          .then(() => {text.textContent = editInput.value})
+          .then(() => {
+            text.textContent = editInput.value;
+            editButtonPressed = false;
+            editInput.remove();
+          })
+        }
+      })
   })
-  return li.appendChild(redButton);
+  return li.appendChild(editButton);
 }
 //Кнопка удаления
 function createDelButton(li, obj) {
@@ -117,6 +127,7 @@ function createCheckbox(li, ulForDoneLi, text, obj) {
       let doneLi = li;
       doneLi.textContent = text.textContent; 
       ulForDoneLi.append(doneLi);
+      createDelButton(li);
       doneLi.classList.add('checked');
       //Отправляю на сервер значение done = тру
       fetch(`https://todoappexamplejs.herokuapp.com/items/${obj.id}`, {
@@ -153,10 +164,12 @@ async function todoFilling() {
     //В спан я буду записывать текст из title (ранее был input, просто копировал блок)
     let textFromInput = document.createElement('span');
     textFromInput.textContent = task.title;
-    document.querySelector('.ol-1').appendChild(newLi);
+    document.querySelector('.ol-1').prepend(newLi);
     //Если таск выполенен, добаляю его во второй список
     if (task.done == true) {
       createCheckbox(newLi, ulDone, textFromInput, task);
+      createDelButton(newLi, task);
+      
     } else {
       //Разделил это на два разных блока, чтобы к выполненному таску во втором списке не добалялись кнопки, дата и прочее
       createCheckbox(newLi, ulDone, textFromInput, task);
@@ -182,7 +195,7 @@ document.querySelector('.form-1').addEventListener('submit', event => {
   
   //Вывод пунктов списка: если инпут не пустой - вывод.
   if (textFromInput.textContent !='') {
-    document.querySelector('.ol-1').appendChild(newLi);
+    document.querySelector('.ol-1').prepend(newLi);
 
     //Вывод в <li>: текста в <span>,даты через функцию, которая возвращает строку, удаление, редактирование
     createCheckbox(newLi, ulDone, textFromInput);
@@ -209,7 +222,7 @@ document.querySelector('.form-1').addEventListener('submit', event => {
       let obj = {
         id: id,
         title: textFromInput.textContent,
-        category: messageType.value,
+        category: messageType.value
         //Когда поправлю done пригодится
         // done: answer = (document.querySelector('li').classList.contains('checked')) ? true : false
       }

@@ -31,11 +31,24 @@ button {
     font-weight: 400;
     width: 90px;
     height: 25px;
-    padding: 3px;
+    padding: 5px;
     margin: 0 3px;
     cursor: pointer;
     outline: none;
     overflow-wrap: none;
+    vertical-align: center;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(38, 139, 126, .7);
+    border: none;
+    border-radius: 2px;
+    transition: .3s;
+}
+
+button:hover {
+    background-color: rgba(32, 117, 106, 0.5);
+    border-radius: 1px;
+    box-shadow: inset 0 0 1px 2px;
 }
 
 ul, ol, li {
@@ -62,10 +75,26 @@ li > input:first-child {
     width: 20px;
 }
 
+input {
+    outline: none;
+    overflow: hidden;
+}
+
+input::-webkit-input-placeholder {
+    opacity: .7;
+    font-size: 12px;
+    transition: .4s;
+}
+
+input:focus::-webkit-input-placeholder {
+    opacity: 0;
+    transform: translateX(100px);
+}
+
+
 ul > li {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
     list-style: none;
     padding: 3px;
     margin-bottom: 3px;
@@ -91,7 +120,6 @@ span {
     font-weight: 500;
     margin-bottom: 3px;
     width: 560px;
-    outline: none;
     flex-grow: 0;
 }
 
@@ -101,7 +129,14 @@ span {
 
 .delet-but {
 /* для того, чтобы инпут для редактирования появлялся перед делет, а не после */
-    order: 1;
+    order: 1;   
+}
+
+.delet-but:hover {
+    color: rgba(63, 9, 9, 0.9);
+    background-color: rgba(80, 10, 10, 0.432);
+    box-shadow: inset 0 0 2px 2px rgba(63, 9, 9, 0.9);
+
 }
 
 .redact-but {
@@ -132,7 +167,7 @@ span {
 
 .checked {
     background: rgba(70, 70, 70, .7);
-    text-decoration: line-through;
+    /* text-decoration: line-through; */
     color: white;
 }
 
