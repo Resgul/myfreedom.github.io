@@ -52,11 +52,11 @@ function scoreUP(score, obj) {
 }
 
 function getDamages(obj, ship) {
-  if (obj.score === 2) ship.style.background = 'url(/img/ship/starship1.png)';
+  if (obj.score === 2) ship.style.background = 'url(img/ship/starship1.png)';
   ship.style.backgroundSize = 'contain';
-  if (obj.score === 5) ship.style.background = 'url(/img/ship/starship2.png)';
+  if (obj.score === 5) ship.style.background = 'url(img/ship/starship2.png)';
   ship.style.backgroundSize = 'contain';
-  if (obj.score === 6) ship.style.background = 'url(/img/bang.gif)';
+  if (obj.score === 6) ship.style.background = 'url(img/bang.gif)';
   ship.style.backgroundSize = 'contain';
   ship.style.backgroundRepeat = 'no-repeat';
 }
