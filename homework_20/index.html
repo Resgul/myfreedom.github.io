@@ -6,15 +6,22 @@
     <link rel="stylesheet" href="style.css">
     
     <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+    
     <script src="script.js" defer></script>
     <script src="data.js" defer></script>
     <title>Document</title>
 </head>
 <body>
   <div class="gameArea">
+    <div class="timer">time: 0</div>
+    <input type="text" class="player-name" placeholder="Enter your name">
     <div class="score">score: 0</div>
     <div class="start">Press to START</div>
+    <div class="results hide">
+      <p>Рекорды:</p>
+      <ul class="ul-results"></ul>
+    </div>
   </div>
 </body>
 </html>
