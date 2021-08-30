@@ -22,6 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   transition: .1s;
+  position: relative;
 }
 
 .main-interface {
@@ -73,6 +74,9 @@ button {
   justify-content: center;
   border-radius: 3px;
   transition: .2s;
+  color: #fff;
+  font-family: 'Impact', sans-serif;
+  font-size: 29px;
 }
 
 button:hover {
@@ -87,12 +91,6 @@ button > .button-icon {
   background-repeat: no-repeat;
   background-size: contain;
   transition: .2s;
-}
-
-button > .button-text {
-  color: #fff;
-  font-family: 'Impact', sans-serif;
-  font-size: 29px;
 }
 
 .add-task-button {
@@ -140,7 +138,9 @@ button > .button-text {
 
 .task-input, 
 .main-block > .task-category, 
-.task-date {
+.task-date,
+.input-text,
+.input-date {
   outline: none;
   border: none;
   border-radius: 3px;
@@ -157,13 +157,17 @@ button > .button-text {
 
 .task-input:hover, 
 .main-block > .task-category:hover, 
-.task-date:hover {
+.task-date:hover,
+.input-text:hover,
+.input-date:hover {
   background-color: #242f31;
 }
 
 .task-input:focus, 
 .main-block > .task-category:focus, 
-.task-date:focus {
+.task-date:focus,
+.input-text:focus,
+.input-date:focus {
   background-color: #232a2c;
 }
 
@@ -240,18 +244,6 @@ button > .button-text {
   text-overflow: ellipsis;
 }
 
-.form-popUp {
-  width: 420px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(231, 143, 102, 0.39);
-  padding: 5px;
-  border: 1px black;
-  border-style: dotted;
-  border-radius: 2px;
-}
-
 .task-checked .task-text {
   text-decoration: line-through;
 }
@@ -316,6 +308,59 @@ button > .button-text {
   background-color: #226767;
 }
 
+/* Всплывающие окна */
+.container-popUp {
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(8, 8, 8, 0.95);
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 5px 10px #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-popUp {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  background-color: rgb(191, 192, 151);
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.pop-add-button {
+  min-width: 100%;
+  background-color: #51774e;
+}
+
+.pop-cancel-button {
+  align-self: flex-end;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  background-color: #6c4f4f;
+  font-family: sans-serif;
+}
+
+.input-date,
+.input-text {
+  margin-bottom: 5px;
+}
+
+.h2-text {
+  margin-bottom: 25px;
+  color: #232a2c;
+  font-family: 'Impact', sans-serif;
+  font-size: 29px;
+  transition: .2s;
+}
+
 /* Далее адаптив */
 @media (max-width: 767px) {
   .button-text {
@@ -345,6 +390,9 @@ button > .button-text {
   }
   .main-interface {
     padding-top: 25px;
+  }
+  .h2-text {
+    font-size: 20px;
   }
 }
 
@@ -387,5 +435,10 @@ button > .button-text {
     margin: 5px 0 0 0;
     min-width: 49%;
   }
-
+  .container-popUp {
+    min-width: 380px;
+  }
+  .h2-text {
+    font-size: 15px;
+  }
 }

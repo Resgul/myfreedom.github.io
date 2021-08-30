@@ -60,32 +60,59 @@ function addCategoryfromServer(li, task) {
 }
 
 // конструктор всплывающего окна для кнопки редактирования
-function PopUp() {
+function PopUp(message) {
   this.createPopUp = function() {
-    this.popUpDiv = createElement('form', 'form-popUp');
-    this.popUpApplyButton = createElement('button', 'add-task-button');
+    this.popUpDiv = createElement('div', 'container-popUp');
+    this.popUpForm = createElement('form', 'form-popUp');
+    this.popCancelButton = createElement('button', 'pop-cancel-button');
+    this.popCancelButton.textContent = 'X';
+    this.popCancelButton.addEventListener('click', e => {
+      e.preventDefault();
+      this.popUpDiv.remove();
+    });
+    this.popUpApplyButton = createElement('button', 'pop-add-button');
+    this.popUpApplyButton.textContent = 'CHANGE';
+    this.h2 = createElement('h2', 'h2-text');
+    this.h2.textContent = "РЕДАКТИРОВАТЬ ЗАДАЧУ: ";
     this.popUpText = createElement('input', 'input-text');
-    this.popUpText.setAttribute('type', 'text')
+    this.popUpText.setAttribute('type', 'text');
+    this.popUpText.value = `${message}`;
     this.popUpDate = createElement('input', 'input-date');
     this.popUpDate.setAttribute('type', 'date');
     setDateToday(this.popUpDate);
-    this.popUpDiv.append(this.popUpApplyButton, this.popUpDate, this.popUpText);
+    this.popUpForm.append(this.popCancelButton, this.h2, this.popUpDate, this.popUpText, this.popUpApplyButton);
+    this.popUpDiv.append(this.popUpForm);
     document.body.prepend(this.popUpDiv);
-    this.popUpText.focus();    
+    this.popUpText.focus();
+    document.addEventListener('keyup', e => {
+      if (e.keyCode === 27) this.popUpDiv.remove()
+    }) 
   }
 }
 
 function PopUpCategory() {
   this.createPopUp = function() {
-    this.popUpDiv = createElement('form', 'form-popUp');
-    this.popUpApplyButton = createElement('button', 'add-task-button');
-    this.popUpSpan = createElement('span', 'span-text');
-    this.popUpSpan.textContent = "Введите свою категорию: ";
+    this.popUpDiv = createElement('div', 'container-popUp');
+    this.popUpForm = createElement('form', 'form-popUp');
+    this.popCancelButton = createElement('button', 'pop-cancel-button');
+    this.popCancelButton.textContent = 'X';
+    this.popCancelButton.addEventListener('click', e => {
+      e.preventDefault();
+      this.popUpDiv.remove();
+    });
+    this.popUpApplyButton = createElement('button', 'pop-add-button');
+    this.popUpApplyButton.textContent = 'CHANGE';
+    this.h2 = createElement('h2', 'h2-text');
+    this.h2.textContent = "ВВЕДИТЕ СВОЮ КАТЕГОРИЮ: ";
     this.popUpText = createElement('input', 'input-text');
     this.popUpText.setAttribute('type', 'text');
-    this.popUpDiv.append(this.popUpApplyButton, this.popUpSpan, this.popUpText);
+    this.popUpForm.append(this.popCancelButton, this.h2, this.popUpText, this.popUpApplyButton);
+    this.popUpDiv.append(this.popUpForm);
     document.body.prepend(this.popUpDiv);
-    this.popUpText.focus();    
+    this.popUpText.focus();
+    document.addEventListener('keyup', e => {
+      if (e.keyCode === 27) this.popUpDiv.remove()
+    })
   }
 }
 
@@ -142,7 +169,7 @@ function addTask(message, date, list) {
   const li = createElement('li', 'task-list-element');
   const div = createElement('div', 'div-list-element');
   const messageContainer = createElement('span', 'task-text');
-  messageContainer.textContent = ` ${message.value} сделать до ${date.value}`;
+  messageContainer.textContent = `${message.value} сделать до ${date.value}`;
   addCheckbox(div, list);
   div.append(messageContainer);
   div.append(spanCategory);
@@ -186,11 +213,12 @@ function addEditButton (li, message, task) {
 }
 
 function editTask(message, task) {
-  let popUp = new PopUp();
+  let textForEdit = message.textContent.slice(0,-22);
+  let popUp = new PopUp(textForEdit);
   popUp.createPopUp();
   popUp.popUpApplyButton.addEventListener('click', event => {
     event.preventDefault();
-    message.textContent = ` ${popUp.popUpText.value} сделать до ${popUp.popUpDate.value}`;
+    message.textContent = `${popUp.popUpText.value} сделать до ${popUp.popUpDate.value}`;
     editTaskRequest(message, task)
     popUp.popUpDiv.remove();
   })
@@ -275,6 +303,9 @@ addButton.addEventListener('click', event => {
   addTask(taskMessage, taskDate, taskList)
   taskMessage.value = '';
 });
+
+
+
 
 
 
