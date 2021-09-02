@@ -5,18 +5,6 @@ const addButton = document.querySelector('.add-task-button'),
   taskCategory = document.querySelector('.task-category');
   const spanCategory = createElement('span', 'task-category');
   
-  taskCategory.addEventListener('change', ()=> {
-    if (taskCategory.value === 'своя категория') {
-      let popUp = new PopUpCategory();
-      popUp.createPopUp();
-      popUp.popUpApplyButton.addEventListener('click', e => {
-        e.preventDefault();
-        spanCategory.textContent = `${popUp.popUpText.value}`
-        popUp.popUpDiv.remove();
-      })
-    }
-  })
-
 // ------------------------------ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ------------------------------
 // быстрое создание элементов с заданным классом
 function createElement(tagName, tagClass) {
@@ -37,7 +25,7 @@ function checkWindowWidth() {
 
 function setDateToday(dataInput) {
   let d = new Date();
-  dataInput.value = `${d.getFullYear()}-${String(101 + d.getMonth()).slice(1)}-${d.getDate()}`;
+  dataInput.value = `${d.getFullYear()}-${String(101 + d.getMonth()).slice(1)}-${String(100 + d.getDate()).slice(1)}`;
 }
 
 function collectPartsOfLi(li, list, messageContainer, task) {
@@ -116,6 +104,20 @@ function PopUpCategory() {
   }
 }
 
+function customCategoryHandler(categorySelector) {
+  categorySelector.addEventListener('change', ()=> {
+    if (categorySelector.value === 'своя категория') {
+      let popUp = new PopUpCategory();
+      popUp.createPopUp();
+      popUp.popUpApplyButton.addEventListener('click', e => {
+        e.preventDefault();
+        spanCategory.textContent = `${popUp.popUpText.value}`;
+        popUp.popUpDiv.remove();
+        return spanCategory
+      })
+    }
+  })
+}
 // ------------------------------РАБОТА КНОПОК------------------------------
 function loadTasksFromServer(list) {
   getTasksRequest()
@@ -296,6 +298,7 @@ function checkboxDoneRequest(task, done) {
 // --------------------------ПОЕХАЛИ--------------------------------------------------
 setDateToday(taskDate);
 loadTasksFromServer(taskList);
+customCategoryHandler(taskCategory);
 checkWindowWidth();
 
 addButton.addEventListener('click', event => {
