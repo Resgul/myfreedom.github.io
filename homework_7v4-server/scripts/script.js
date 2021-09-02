@@ -107,15 +107,17 @@ function PopUpCategory() {
 function customCategoryHandler(categorySelector) {
   categorySelector.addEventListener('change', ()=> {
     if (categorySelector.value === 'своя категория') {
+      spanCategory.textContent = '';
       let popUp = new PopUpCategory();
       popUp.createPopUp();
       popUp.popUpApplyButton.addEventListener('click', e => {
         e.preventDefault();
         spanCategory.textContent = `${popUp.popUpText.value}`;
         popUp.popUpDiv.remove();
-        return spanCategory
       })
     }
+    console.log(spanCategory.textContent);
+    return spanCategory
   })
 }
 // ------------------------------РАБОТА КНОПОК------------------------------
