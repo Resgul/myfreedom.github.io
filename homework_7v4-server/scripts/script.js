@@ -1,3 +1,4 @@
+import PopUpGenerator from './popup.js';
 const addButton = document.querySelector('.add-task-button'),
   taskMessage = document.querySelector('.task-input'),
   taskDate = document.querySelector('.task-date'),
@@ -47,60 +48,26 @@ function addCategoryfromServer(li, task) {
   return li.append(span)
 }
 
-// конструктор всплывающего окна для кнопки редактирования
-function PopUp(message) {
-  this.createPopUp = function() {
-    this.popUpDiv = createElement('div', 'container-popUp');
-    this.popUpForm = createElement('form', 'form-popUp');
-    this.popCancelButton = createElement('button', 'pop-cancel-button');
-    this.popCancelButton.textContent = 'X';
-    this.popCancelButton.addEventListener('click', e => {
-      e.preventDefault();
-      this.popUpDiv.remove();
-    });
-    this.popUpApplyButton = createElement('button', 'pop-add-button');
-    this.popUpApplyButton.textContent = 'CHANGE';
-    this.h2 = createElement('h2', 'h2-text');
+class PopUp extends PopUpGenerator {
+  constructor(message) {
+    super();
+    //Подзаголовок в окне
     this.h2.textContent = "РЕДАКТИРОВАТЬ ЗАДАЧУ: ";
-    this.popUpText = createElement('input', 'input-text');
-    this.popUpText.setAttribute('type', 'text');
+    //Текст в инпуте
     this.popUpText.value = `${message}`;
     this.popUpDate = createElement('input', 'input-date');
     this.popUpDate.setAttribute('type', 'date');
     setDateToday(this.popUpDate);
     this.popUpForm.append(this.popCancelButton, this.h2, this.popUpDate, this.popUpText, this.popUpApplyButton);
-    this.popUpDiv.append(this.popUpForm);
-    document.body.prepend(this.popUpDiv);
-    this.popUpText.focus();
-    document.addEventListener('keyup', e => {
-      if (e.keyCode === 27) this.popUpDiv.remove()
-    }) 
   }
 }
 
-function PopUpCategory() {
-  this.createPopUp = function() {
-    this.popUpDiv = createElement('div', 'container-popUp');
-    this.popUpForm = createElement('form', 'form-popUp');
-    this.popCancelButton = createElement('button', 'pop-cancel-button');
-    this.popCancelButton.textContent = 'X';
-    this.popCancelButton.addEventListener('click', e => {
-      e.preventDefault();
-      this.popUpDiv.remove();
-    });
-    this.popUpApplyButton = createElement('button', 'pop-add-button');
-    this.popUpApplyButton.textContent = 'CHANGE';
-    this.h2 = createElement('h2', 'h2-text');
+class PopUpCategory extends PopUpGenerator {
+  constructor() {
+    super();
+    //Подзаголовок в окне
     this.h2.textContent = "ВВЕДИТЕ СВОЮ КАТЕГОРИЮ: ";
-    this.popUpText = createElement('input', 'input-text');
-    this.popUpText.setAttribute('type', 'text');
     this.popUpForm.append(this.popCancelButton, this.h2, this.popUpText, this.popUpApplyButton);
-    this.popUpDiv.append(this.popUpForm);
-    document.body.prepend(this.popUpDiv);
-    this.popUpText.focus();
-    document.addEventListener('keyup', e => {
-      if (e.keyCode === 27) this.popUpDiv.remove()
-    })
   }
 }
 
@@ -109,14 +76,12 @@ function customCategoryHandler(categorySelector) {
     if (categorySelector.value === 'своя категория') {
       spanCategory.textContent = '';
       let popUp = new PopUpCategory();
-      popUp.createPopUp();
       popUp.popUpApplyButton.addEventListener('click', e => {
         e.preventDefault();
         spanCategory.textContent = `${popUp.popUpText.value}`;
         popUp.popUpDiv.remove();
       })
     }
-    console.log(spanCategory.textContent);
     return spanCategory
   })
 }
@@ -219,7 +184,6 @@ function addEditButton (li, message, task) {
 function editTask(message, task) {
   let textForEdit = message.textContent.slice(0,-22);
   let popUp = new PopUp(textForEdit);
-  popUp.createPopUp();
   popUp.popUpApplyButton.addEventListener('click', event => {
     event.preventDefault();
     message.textContent = `${popUp.popUpText.value} сделать до ${popUp.popUpDate.value}`;
