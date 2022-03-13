@@ -1,3 +1,4 @@
+import {loadingBarDelete, loadingBarProcessing} from './loading.js';
 import PopUpGenerator from './popup.js';
 const addButton = document.querySelector('.add-task-button'),
   taskMessage = document.querySelector('.task-input'),
@@ -7,6 +8,8 @@ const addButton = document.querySelector('.add-task-button'),
   const spanCategory = createElement('span', 'task-category');
   
 // ------------------------------ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ------------------------------
+loadingBarDelete();
+loadingBarProcessing();
 // быстрое создание элементов с заданным классом
 function createElement(tagName, tagClass) {
   const tag = document.createElement(`${tagName}`);
