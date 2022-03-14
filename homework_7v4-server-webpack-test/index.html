@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="dist/bundle.js" type="module" defer></script>
+  <title>Блокнот</title>
+</head>
+<body>
+  <div class="container">
+    <h1>MY NOTES</h1>
+    <form>
+      <div class="main-interface">
+        <div class="main-block">
+          <p>ADD TASK</p>
+          <button class="add-task-button">
+            <span class="button-icon"></span>
+            <span class="button-text">ADD</span>
+          </button>
+        </div>
+        <div class="main-block">
+          <p>TASK MESSAGE</p>
+          <input type="text" class="task-input">
+        </div>
+        <div class="main-block">
+          <p>CATEGORY</p>
+          <select class="task-category">
+            <option name= "regular" value="обычное" selected>Обычное</option>
+            <option name= "main" value="важное">Важное</option>
+            <option class="custom-category" name= "custom" value="своя категория">Своя категория</option>
+          </select>
+        </div>
+        <div class="main-block">
+          <p>DATE</p>
+          <input type="date" class="task-date">
+        </div>
+      </div>
+    </form>
+    <ul class="task-list"></ul>
+  </div>
+  <h2 id="loading">LOADING</h2>
+</body>
+</html>
